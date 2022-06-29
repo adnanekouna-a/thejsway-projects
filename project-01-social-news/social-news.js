@@ -14,11 +14,7 @@ const between = (startNum, endNum) => {
 		return `(between ${Math.min(startNum, endNum)} and ${Math.max(startNum, endNum)})`
 	}
 };
-// Range function to check if the removedNum is in it
-const range = (startNum, endNum) => [...Array(endNum).keys()].slice(startNum)
-// To check whether the number is valid in a range or not (Broken)
-const isNumberUnvalid = (number, min, max) =>  !(number > min && number < max && (typeof number == "number" || number == ""));
-
+// Adds http:// if needed
 const formatUrl = url => {
 	if(!(url.startsWith("http://") || url.startsWith("https://"))){
 		return "http://" + url
@@ -64,17 +60,20 @@ while(1) {
 		continue;
 	} else if(Number(actionChoice == 3)) {
 		// Removes the link by index if provided correctly, otherwise it prompts again (Broken)
-		let removedLink = 0;
-		while(!(removedLink in range(1,links.length+1))){
-			removedLink = Number(prompt("Give me the damn number"));
-			console.log(removedLink);
-		};
-		links.pop(removedLink-1);
-		continue;
+		if (links.length > 0) {
+			let removedIndex = -1;
+			const maxIndex = links.length+1;
+			while(removedIndex < 1 || removedIndex > maxIndex){
+				removedIndex = Number(prompt(`Enter the index of the link to be removed ${between(1,links.length)}`));
+			};
+			links.splice(removedIndex-1,1);
+		} else {
+			alert(noLinksMsg);
+		}
+			continue;
 	} else {
 			break;
 	}
-}
 
-// TODO
-// - Fix the link removal mechanism
+}
+alert("See you later!")
